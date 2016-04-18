@@ -14,5 +14,7 @@ Usage:
 [docopt.swift](https://github.com/docopt/docopt.swift)
 
 ## Credits
+
 iTerm2's image display feature [document](https://www.iterm2.com/images.html)
+
 Nyan Cat image obtained from [here](http://www.nyan.cat/cats/original.gif)
