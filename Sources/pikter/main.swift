@@ -1,11 +1,11 @@
 import Foundation
 import Docopt
 
-let doc : String = "imgter - Image on iTerm\n" +
+let doc : String = "pikter - Picture on iTerm\n" +
 "\n" +
 "Usage:\n" +
-"  imgter <filePath>\n" +
-"  imgter (-h | --help)\n" +
+"  pikter <filePath>\n" +
+"  pikter (-h | --help)\n" +
 "\n" +
 "Options:\n" +
 "  -h, --help\n"

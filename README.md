@@ -1,12 +1,12 @@
-# imgter - Image on iTerm
+# pikter - Picture on iTerm
 
 Note: works with iTerm2 version 2.9 or later. Get one [here](https://iterm2.com/downloads/beta/iTerm2-2_9_20160313.zip).
 
-![imgter-demo](https://raw.githubusercontent.com/anhdat/imgter/master/imgter-demo.gif)
+![pikter-demo](https://raw.githubusercontent.com/anhdat/pikter/master/pikter-nyan-demo.gif)
 
 ```
 Usage:
-  imgter <filePath>
+  pikter <filePath>
 ```
 
 ## Dependencies

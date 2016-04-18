@@ -1,9 +1,9 @@
 import PackageDescription
 
 let package = Package(
-    name: "imgter",
+    name: "pikter",
     targets: [
-        Target(name: "imgter", dependencies: ["Docopt"]),
+        Target(name: "pikter", dependencies: ["Docopt"]),
     ],
     dependencies: [
     ]
