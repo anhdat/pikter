@@ -2,10 +2,12 @@
 
 Note: works with iTerm2 version 2.9 or later. Get one [here](https://iterm2.com/downloads/beta/iTerm2-2_9_20160313.zip).
 
-<!-- ![imgter-demo](imgter-demo.gif) -->
+![imgter-demo](https://raw.githubusercontent.com/anhdat/imgter/master/imgter-demo.gif)
 
+```
 Usage:
   imgter <filePath>
+```
 
 ## Dependencies
 
