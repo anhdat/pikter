@@ -26,12 +26,17 @@ func printImage(path path: String) {
 }
 
 
-func main() {
+func getTerminalInput() -> [String: AnyObject] {
     var args = Process.arguments
     args.removeAtIndex(0) // arguments[0] is always the program_name
-    let input = Docopt.parse(doc, argv: args)
+    return Docopt.parse(doc, argv: args)
+}
 
-    guard let filePath = input["<filePath>"] as? String else {
+
+func main() {
+    let terminalInput = getTerminalInput()
+
+    guard let filePath = terminalInput["<filePath>"] as? String else {
         return
     }
 
