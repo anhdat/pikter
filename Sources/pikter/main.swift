@@ -20,8 +20,15 @@ func printImage(data data: NSData, name: String="Unnamed") {
 }
 
 
-func printImage(path path: String) {
-    let imageData = NSData(contentsOfFile: path)!
+enum ImagePrintingError: ErrorType {
+    case InvalidFilePath(path: String)
+}
+
+
+func printImage(path path: String) throws {
+    guard let imageData = NSData(contentsOfFile: path) else {
+        throw ImagePrintingError.InvalidFilePath(path: path)
+    }
     printImage(data:imageData)
 }
 
@@ -40,8 +47,13 @@ func main() {
         return
     }
 
-    printImage(path: filePath)
+    do {
+        try printImage(path: filePath)
+    } catch ImagePrintingError.InvalidFilePath(let path) {
+        print("Can't resolve a file from input path: \"\(path)\"")
+    } catch {
+        print(error)
+    }
 }
-
 
 main()
