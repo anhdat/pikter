@@ -20,10 +20,28 @@ N%: N percent of the session's width or height.
 auto: The image's inherent size will be used to determine an appropriate dimension.
 */
 import Foundation
+import Cocoa
 
 
 enum ImagePrintingError: ErrorType {
     case InvalidFilePath(path: String)
+    case InvalidImageData
+}
+
+
+func getImageSize(image: NSImage) -> (Int, Int) {
+    let rep: NSImageRep = image.representations[0]
+    return (rep.pixelsWide, rep.pixelsHigh)
+}
+
+func getAutoWidth(image: NSImage, height: Int) -> Int {
+    let (imageWidth, imageHeight) = getImageSize(image)
+    return imageWidth * (height / imageHeight)
+}
+
+func getAutoHeight(image: NSImage, width: Int) -> Int {
+    let (imageWidth, imageHeight) = getImageSize(image)
+    return Int(Float(imageHeight) * Float(width) / Float(imageWidth))
 }
 
 
@@ -33,29 +51,37 @@ func printImage(data data: NSData,
     isPercent: Bool=false,
     preserveAspectRatio: Bool=true,
     isDebug: Bool=false
-    ) {
-    let fileContent = data.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+    ) throws {
+
+    guard let image = NSImage(data: data) else {
+        throw ImagePrintingError.InvalidImageData
+    }
+
     if !isDebug {
         print("\u{001B}]1337;File=inline=1;" )
     }
 
-    let unit = isPercent ? "%" : "px"
+    // let unit = isPercent ? "%" : "px"
+    let unit = "px"
+
+    // (imageWidth, imageHeight) = getImageSize(image)
 
     if let height = height {
         print("height=\(height)", unit, ";", terminator:"", separator:"")
         if width == nil {
-            print("width=auto;", terminator:"")
+            print("width=\(getAutoWidth(image, height: height))px;", terminator:"")
         }
     }
     if let width = width {
         print("width=\(width)", unit, ";", terminator:"", separator:"")
         if height == nil {
-            print("height=auto;", terminator:"")
+            print("height=\(getAutoHeight(image, width: width))px;", terminator:"")
         }
     }
     print("preserveAspectRatio=true")
     print(":")
     if !isDebug {
+        let fileContent = data.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
         print(fileContent)
         print("\u{7}")
     }
@@ -71,7 +97,7 @@ func printImage(path path: String,
     guard let imageData = NSData(contentsOfFile: path) else {
         throw ImagePrintingError.InvalidFilePath(path: path)
     }
-    printImage(data: imageData,
+    try printImage(data: imageData,
         width: width, height: height,
         isPercent: isPercent,
         isDebug: isDebug
