@@ -4,11 +4,16 @@ import Docopt
 let doc : String = "pikter - Picture on iTerm\n" +
 "\n" +
 "Usage:\n" +
-"  pikter <filePath> [--width=<px>, --height=<px>, --percent=<True>, (-d | --debug)]\n" +
+"  pikter <filePath>... [--width=<px>, --height=<px>, --percent=<True>, (-d | --debug)]\n" +
 "  pikter (-h | --help)\n" +
 "\n" +
 "Options:\n" +
 "  -h, --help\n"
+
+
+enum PikterApplicationError: ErrorType {
+    case MissingFilePath
+}
 
 
 func getTerminalInput() -> [String: AnyObject] {
@@ -18,11 +23,30 @@ func getTerminalInput() -> [String: AnyObject] {
 }
 
 
+func getFilePaths(terminalInput: [String: AnyObject]) throws -> [String] {
+    var filePaths: [String]
+    if let _filePaths = terminalInput["<filePath>"] as? [String] {
+        filePaths = _filePaths
+    } else {
+        guard let filePath = terminalInput["<filePath>"] as? String else {
+            throw PikterApplicationError.MissingFilePath
+        }
+        filePaths = [filePath]
+    }
+    return filePaths
+}
+
+
 func main() {
     let terminalInput = getTerminalInput()
-
-    guard let filePath = terminalInput["<filePath>"] as? String else {
+    var filePaths: [String]
+    do {
+        filePaths = try getFilePaths(terminalInput)
+    } catch PikterApplicationError.MissingFilePath {
         print("Missing file path")
+        return
+    } catch {
+        print("Error when getting file paths: \(error)")
         return
     }
 
@@ -52,13 +76,16 @@ func main() {
         print("width: \(width), height: \(height)")
     }
 
-    do {
-        try printImage(path: filePath, width: width, height: height, isDebug: isDebug)
-    } catch ImagePrintingError.InvalidFilePath(let path) {
-        print("Can't resolve a file from input path: \"\(path)\"")
-    } catch {
-        print(error)
+    for filePath in filePaths {
+        do {
+            try printImage(path: filePath, width: width, height: height, isDebug: isDebug)
+        } catch ImagePrintingError.InvalidFilePath(let path) {
+            print("Can't resolve a file from input path: \"\(path)\"")
+        } catch {
+            print(error)
+        }
     }
+
 }
 
 main()
