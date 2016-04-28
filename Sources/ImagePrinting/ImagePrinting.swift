@@ -23,7 +23,7 @@ import Foundation
 import Cocoa
 
 
-enum ImagePrintingError: ErrorType {
+public enum ImagePrintingError: ErrorType {
     case InvalidFilePath(path: String)
     case InvalidImageData
 }
@@ -45,7 +45,7 @@ func getAutoHeight(image: NSImage, width: Int) -> Int {
 }
 
 
-func printImage(data data: NSData,
+public func printImage(data data: NSData,
     name: String="Unnamed",
     height: Int?=nil, width: Int?=nil,
     isPercent: Bool=false,
@@ -88,7 +88,7 @@ func printImage(data data: NSData,
 }
 
 
-func printImage(path path: String,
+public func printImage(path path: String,
     height: Int?=nil, width: Int?=nil,
     isPercent: Bool=false,
     preserveAspectRatio: Bool=true,

@@ -1,5 +1,6 @@
 import Foundation
 import Docoptswift
+import ImagePrinting
 
 let doc : String = "pikter - Picture on iTerm\n" +
 "\n" +
