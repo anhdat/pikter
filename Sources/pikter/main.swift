@@ -1,5 +1,5 @@
 import Foundation
-import Docopt
+import Docoptswift
 
 let doc : String = "pikter - Picture on iTerm\n" +
 "\n" +
